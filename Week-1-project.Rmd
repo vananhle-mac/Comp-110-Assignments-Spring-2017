@@ -1,6 +1,6 @@
 # Week 1 Project  
 
-## Your name should appear here!
+## Van Anh Le
 
 <!-- leave this material as is -->
 Compiled on `r date()`.
@@ -10,4 +10,10 @@ library(DataComputing)
 ```
 <!-- put your content after this line -->
 
-Here is my content!
+[World War II](https://en.wikipedia.org/wiki/World_War_II) was the last world war
+
+- It started in 1939
+- It ended sometime later
+
+![picture](https://en.wikipedia.org/wiki/World_War_II#/media/File:Infobox_collage_for_WWII.PNG)
+
