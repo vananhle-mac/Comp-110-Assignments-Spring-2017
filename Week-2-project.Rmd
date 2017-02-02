@@ -1,6 +1,6 @@
 # Week 2 Project
 
-## Your name should appear here!
+## Van Anh Le
 
 <!-- leave this material as is -->
 Compiled on `r date()`.
@@ -8,6 +8,38 @@ Compiled on `r date()`.
 ```{r include = FALSE}
 library(DataComputing)
 ```
-<!-- put your content after this line -->
 
-Here is my content!
+The data from the Macalester Library of items in their colection was download from http://tiny.cc/dcf/Library-small.rda
+
+## Basics
+
+```{r}
+load("Library-small.rda")
+```
+
+Number of cases:
+```{r}
+nrow(Bks)
+nrow(Inv)
+```
+Names of variables:
+```{r}
+names(Bks)
+names(Inv)
+```
+
+Number of books in each status for books in Inv:
+```{r}
+Inv %>%
+  group_by(Current.Status) %>%
+  tally()
+```
+Times a book have been checked out
+```{r}
+Inv %>%
+  group_by(Issued.Count) %>%
+  tally()
+```
+The first column is the number of times a book have been checked out and the second column shows the number of cases (books) that have been checked out in that amount of time. For example, there are 996 books 227 books which have been checked out once.
+
+  
