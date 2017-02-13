@@ -1,0 +1,29 @@
+
+<!-- Don't edit in between this line and the one below -->
+```{r include=FALSE}
+# Don't delete this chunk if you are using the DataComputing package
+library(DataComputing)
+```
+*Source file* 
+```{r, results='asis', echo=FALSE}
+includeSourceDocuments()
+```
+<!-- Don't edit the material above this line -->
+
+
+#**Birds of The World**
+
+##*JJ Audubon*
+
+*Source file* 
+```{r, results='asis', echo=FALSE}
+includeSourceDocuments()
+```
+
+There are many species of birds in the world. From my studio, I can see:
+
+- Blue Jays
+- Cardinals
+- Robins
+- Crows
+- Sparrows
