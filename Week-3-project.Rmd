@@ -1,6 +1,6 @@
 # Week 3 Project
 
-## Your name should appear here! 
+## Van Anh Le
 
 <!-- leave this material as is -->
 Compiled on `r date()`.
@@ -10,4 +10,84 @@ library(DataComputing)
 ```
 <!-- put your content after this line -->
 
-Here is my content!
+###Deconstructing graphics
+
+- This is a density plot.
+
+- The variables involved are bmi, sex, pregnant.
+
+- bmi is a frame, pregnant (yes or no) serves as a facet, sex is mapped on to the color aesthetics. 
+
+- This is a density plot. The value on the y-axis is the density of values of bmi in the data. 
+
+```{r}
+library(mosaicData)
+ggplot(data = CPS85, aes(x = exper, y = wage, color = married)) + geom_point() + facet_wrap( ~sector)
+```
+```{r}
+ggplot(data = NCHS, aes(x = bmi)) + geom_density(aes(color = sex)) + facet_wrap(~pregnant)
+```
+
+###Wrangling
+
+####Diamonds
+
+```{r}
+diamonds %>%
+  group_by(color)%>%
+  summarize(mean=mean(carat))%>%
+  arrange(desc(mean))%>%
+    head(1)
+```
+
+On average, J colored diamonds weigh the most. 
+
+```{r}
+diamonds%>%
+  group_by(clarity)%>%
+  summarize(mean=mean(table))%>%
+  arrange(desc(mean))%>%
+    head(1)
+```
+
+On average, diamonds with l1 clarity has the largest "table" per carat.
+
+####Voting
+
+```{r}
+Minneapolis2013%>%
+  tally()
+```
+
+There are 80101 cases. 
+
+The top 5 candidates in Second vote are:
+```{r}
+Minneapolis2013%>%
+  group_by(Second)%>%
+  summarize(topSecond = n()) %>%
+  arrange(desc(topSecond))
+```
+
+```{r}
+Minneapolis2013 %>%
+  summarise(first_undervote = sum(First == "undervote"),
+            second_undervote=sum(Second == "undervote"),
+            third_undervote=sum(Third == "undervote"))
+```
+```{r}
+Minneapolis2013%>%
+  filter(First =="BETSY HODGES")%>%
+  group_by(Second)%>%
+  summarize(top3 = n())%>%
+  arrange(desc(top3))%>%
+  head(3)
+
+``` 
+
+```{r}
+Minneapolis2013%>%
+  group_by(Precinct)%>%
+  summarize(fraction=mean(First == "undervote"))%>%
+  arrange(desc(fraction))
+```
