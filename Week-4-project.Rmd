@@ -7,7 +7,65 @@ Compiled on `r date()`.
 
 ```{r include = FALSE}
 library(DataComputing)
+library(lubridate)
 ```
 <!-- put your content after this line -->
 
-Here is my content!
+###1.
+```{r}
+library(mosaicData)
+DailyBirths<-
+  Birthdays %>%
+  group_by(date)%>%
+  summarize(Total_birth=sum(births))
+ggplot(data=DailyBirths, aes(x=date, y=Total_birth)) + geom_point() 
+```
+```{r}
+WeeklyBirth<-
+Birthdays%>%
+  mutate(week_of_birhts = week(date))%>%
+  group_by(week_of_birhts)%>%
+  summarise(totalweeklybirths=sum(week_of_birhts))
+```
+```{r}
+MonthlyBirth<-
+Birthdays%>%
+  mutate(month_of_birhts = month(date))%>%
+  group_by(month_of_birhts)%>%
+  summarise(totalmonthlybirths=sum(month_of_birhts))
+```
+```{r}
+juliandayBirth<-
+Birthdays%>%
+  mutate(julianday_birhts = yday(date))%>%
+  group_by(julianday_birhts)%>%
+  summarise(totaljuliandaybirths=sum(julianday_birhts))
+```
+```{r}
+WeekdayBirth<-
+Birthdays%>%
+  mutate(weekday_birhts = wday(date))%>%
+  group_by(weekday_birhts)%>%
+  summarise(totalweekdaybirths=sum(weekday_birhts))
+```
+```{r}
+MyTwoYears<-
+Birthdays%>%
+  mutate(year_birth = year(date))%>%
+  filter(year_birth<1983&year_birth>1980)%>%
+  arrange(date)%>%
+  group_by(date)%>%
+  summarize(TotalBirths=sum(births))%>%
+  mutate(wday=wday(date))
+ggplot(data=MyTwoYears, aes(x=date, y=TotalBirths,color=wday)) + geom_point() 
+```
+```{r}
+Holidays <- read.csv("http://tiny.cc/dcf/US-Holidays.csv") %>%
+  mutate(date = as.POSIXct(lubridate::dmy(date)))%>%
+  mutate(year=year(date))%>%
+  filter(year>1980&year<1983)%>%
+  arrange(year)
+```
+```{r}
+ggplot(data=MyTwoYears, aes(x=date, y=TotalBirths,color=wday)) + geom_point() + geom_vline(data=Holidays,aes(xintercept=as.numeric(date)))+geom_text( aes(label)))
+```
