@@ -1,6 +1,6 @@
 # Week 6 Project
 
-## Your name should appear here!
+## Van Anh Le
 
 <!-- leave this material as is -->
 Compiled on `r date()`.
@@ -10,4 +10,88 @@ library(DataComputing)
 ```
 <!-- put your content after this line -->
 
-Here is my content!
+```{r cache = TRUE}
+data_site <- 
+  "http://tiny.cc/dcf/2014-Q4-Trips-History-Data-Small.rds" 
+Trips <- readRDS(gzcon(url(data_site)))
+```
+##1.
+```{r}
+Trips%>%
+  ggplot(aes(x=sdate))+geom_density(fill="blue",alpha=.1)
+```
+
+
+##2.
+```{r}
+Trips%>%
+  mutate(time_of_day = 
+       lubridate::hour(sdate) + 
+         lubridate::minute(sdate) / 60) %>%
+  ggplot(aes(x=time_of_day))+geom_density(fill="green",alpha=.1)
+```
+
+
+##3.
+```{r}
+Trips%>%
+  mutate(time_of_day = 
+       lubridate::hour(sdate) + 
+         lubridate::minute(sdate) / 60) %>%
+  mutate(weekday = 
+       lubridate::wday(sdate)) %>%
+  ggplot(aes(x=time_of_day))+geom_density(fill="red",color=NA,alpha=.1)+ facet_wrap( ~ weekday) 
+```
+
+
+##4.
+```{r}
+Trips%>%
+  mutate(time_of_day = 
+       lubridate::hour(sdate) + 
+         lubridate::minute(sdate) / 60) %>%
+  mutate(weekday = 
+       lubridate::wday(sdate)) %>%
+  ggplot(aes(x=time_of_day))+geom_density(aes(fill=client),alpha=.1)+ facet_wrap( ~ weekday) 
+```
+
+
+##5.
+```{r}
+Trips%>%
+  mutate(time_of_day = 
+       lubridate::hour(sdate) + 
+         lubridate::minute(sdate) / 60) %>%
+  mutate(weekday = 
+       lubridate::wday(sdate)) %>%
+  ggplot(aes(x=time_of_day))+geom_density(aes(fill=client),color=NA,alpha=.1,position = position_stack())+ facet_wrap( ~ weekday) 
+```
+
+
+- I found plot 4 is most useful in showing the pattern of usage by casual and registered users.
+
+
+###6.
+```{r}
+Trips%>%
+  mutate(time_of_day = 
+       lubridate::hour(sdate) + 
+         lubridate::minute(sdate) / 60) %>%
+  mutate(weekday = 
+       lubridate::wday(sdate)) %>%
+  mutate(wday = ifelse(lubridate::wday(sdate) %in% c(1,7), "weekend", "weekday"))%>%
+  ggplot(aes(x=time_of_day))+geom_density(aes(fill=client),color=NA,alpha=.1)+ facet_wrap( ~ wday) 
+```
+```{r}
+Trips%>%
+  mutate(time_of_day = 
+       lubridate::hour(sdate) + 
+         lubridate::minute(sdate) / 60) %>%
+  mutate(weekday = 
+       lubridate::wday(sdate)) %>%
+  mutate(wday = ifelse(lubridate::wday(sdate) %in% c(1,7), "weekend", "weekday"))%>%
+  ggplot(aes(x=time_of_day))+geom_density(aes(fill=wday),color=NA,alpha=.1,)+ facet_wrap( ~ client) 
+```
+
+
+-In my opinion it is more useful to facets weekend vs weekdays and fill client. Weekend distribution for both groups are similar, therefore we are more interested in difference in usage in the weekdays. Laying distribution on two group in one facet makes it easier to compare. 
